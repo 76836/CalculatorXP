@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="./icon.png" type="image/png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="./manifest.json">
+  <title>Calculator XP</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #1c2a23;
+      color: #ffffff;
+    }
+
+    .calculator {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .display {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      padding: 20px;
+      font-size: 48px;
+    }
+
+    .fraction {
+      font-size: 24px;
+      margin-top: 10px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+    }
+
+    button {
+      border: none;
+      font-size: 24px;
+      padding: 20px 0;
+      color: white;
+      background-color: #294537;
+      cursor: pointer;
+    }
+
+    button:active {
+      background-color: #3a5c4a;
+    }
+
+    .function {
+      background-color: #1e3129;
+    }
+
+    .operator {
+      background-color: #2d5741;
+    }
+
+    .equals {
+      background-color: #2d5741;
+    }
+
+    .top-row {
+      background-color: #1e3129;
+      color: #8fa396;
+    }
+
+    #result,
+    #preview {
+      word-wrap: break-word;
+      max-width: 100%;
+    }
+
+    #preview {
+      font-size: 24px;
+      color: #8fa396;
+      min-height: 36px;
+    }
+
+    #score-display {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 14px;
+      color: #8fa396;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="score-display"></div>
+  <div class="calculator">
+    <div class="display">
+      <div id="preview"></div>
+      <div id="result">0</div>
+      <div class="fraction" id="fraction"></div>
+    </div>
+    <div class="buttons">
+      <button class="top-row">√</button>
+      <button class="top-row">π</button>
+      <button class="top-row">^</button>
+      <button class="top-row">!</button>
+      <button class="function">AC</button>
+      <button class="function">()</button>
+      <button class="function">%</button>
+      <button class="operator">÷</button>
+      <button>7</button>
+      <button>8</button>
+      <button>9</button>
+      <button class="operator">×</button>
+      <button>4</button>
+      <button>5</button>
+      <button>6</button>
+      <button class="operator">-</button>
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button class="operator">+</button>
+      <button>0</button>
+      <button>.</button>
+      <button class="function">⌫</button>
+      <button class="equals">=</button>
+    </div>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then((registration) => {
+          console.log('Service Worker registered with scope:', registration.scope);
+        }).catch((error) => {
+          console.log('Service Worker registration failed:', error);
+        });
+    }
+  </script>
+
+  <script>
+    let currentInput = '';
+    let currentOperation = null;
+    let previousInput = '';
+    let shouldResetScreen = false;
+    let bracketOpen = 0;
+
+    const resultDisplay = document.getElementById('result');
+    const fractionDisplay = document.getElementById('fraction');
+    const previewDisplay = document.getElementById('preview');
+    const scoreDisplay = document.getElementById('score-display');
+
+    function initializeScore() {
+      const currentDate = new Date();
+      const storedMonth = localStorage.getItem('calculatorScoreMonth');
+      const currentMonth = currentDate.getMonth();
+
+      if (storedMonth === null || parseInt(storedMonth) !== currentMonth) {
+        localStorage.setItem('calculatorScore', '100');
+        localStorage.setItem('calculatorScoreMonth', currentMonth.toString());
+        localStorage.setItem('calculationsThisMonth', '0');
+      }
+
+      updateScoreDisplay();
+    }
+
+    function updateScoreDisplay() {
+      const score = localStorage.getItem('calculatorScore');
+      const calculations = localStorage.getItem('calculationsThisMonth');
+      scoreDisplay.textContent = `Score: ${score} | Calculations this month: ${calculations}`;
+    }
+
+    function decrementScore() {
+      let score = parseInt(localStorage.getItem('calculatorScore'));
+      score = Math.max(0, score - 1);
+      localStorage.setItem('calculatorScore', score.toString());
+      updateScoreDisplay();
+    }
+
+    function incrementCalculations() {
+      let calculations = parseInt(localStorage.getItem('calculationsThisMonth'));
+      calculations += 1;
+      localStorage.setItem('calculationsThisMonth', calculations.toString());
+      updateScoreDisplay();
+    }
+
+    function isSimpleCalculation(a, b, operation) {
+      a = parseFloat(a);
+      b = parseFloat(b);
+      if (isNaN(a) || isNaN(b)) return false;
+
+      switch (operation) {
+        case '+':
+          return (a < 10 && b < 10) || (a % 10 === 0 && b < 10) || (b % 10 === 0 && a < 10);
+        case '-':
+          return (a < 20 && b < 10) || (a % 10 === 0 && b < 10);
+        case '×':
+          return (a < 10 && b < 10) || a === 10 || b === 10;
+        case '÷':
+          return b === 2 || b === 10 || (a % b === 0 && b <= 10);
+        default:
+          return false;
+      }
+    }
+
+    function updateDisplay() {
+      resultDisplay.textContent = currentInput || '0';
+      updateFractionDisplay();
+      updatePreviewDisplay();
+    }
+
+    function updateFractionDisplay() {
+      const value = parseFloat(currentInput);
+      if (!isNaN(value) && value !== 0 && Number.isFinite(value)) {
+        const fraction = toFraction(value);
+        fractionDisplay.textContent = fraction;
+      } else {
+        fractionDisplay.textContent = '';
+      }
+    }
+
+    function updatePreviewDisplay() {
+      if (currentOperation && previousInput) {
+        const previewResult = calculate(previousInput, currentInput, currentOperation);
+        previewDisplay.textContent = `${previousInput} ${currentOperation} ${currentInput} =`;
+        resultDisplay.textContent = previewResult;
+      } else {
+        previewDisplay.textContent = '';
+      }
+    }
+
+    function toFraction(x) {
+      if (Math.abs(x) < 1e-10) return '0';
+      const tolerance = 1.0E-6;
+      let h1 = 1, h2 = 0, k1 = 0, k2 = 1;
+      let b = x;
+      do {
+        let a = Math.floor(b);
+        let aux = h1; h1 = a * h1 + h2; h2 = aux;
+        aux = k1; k1 = a * k1 + k2; k2 = aux;
+        b = 1 / (b - a);
+      } while (Math.abs(x - h1 / k1) > x * tolerance);
+
+      return `${h1}/${k1}`;
+    }
+
+    function appendNumber(number) {
+      if (shouldResetScreen) {
+        currentInput = '';
+        shouldResetScreen = false;
+      }
+      currentInput += number;
+      updateDisplay();
+    }
+
+    function appendDecimal() {
+      if (shouldResetScreen) {
+        currentInput = '0';
+        shouldResetScreen = false;
+      }
+      if (!currentInput.includes('.')) {
+        currentInput += '.';
+      }
+      updateDisplay();
+    }
+
+    function setOperation(operation) {
+      if (currentOperation !== null) evaluate();
+      previousInput = currentInput;
+      currentOperation = operation;
+      shouldResetScreen = true;
+      updateDisplay();
+    }
+
+    function evaluate() {
+      if (currentOperation === null || shouldResetScreen) return;
+
+      incrementCalculations();
+
+      if (isSimpleCalculation(previousInput, currentInput, currentOperation)) {
+        decrementScore();
+      }
+
+      currentInput = calculate(previousInput, currentInput, currentOperation);
+      currentOperation = null;
+      previousInput = '';
+      updateDisplay();
+    }
+
+    function calculate(a, b, operation) {
+      a = parseFloat(a);
+      b = parseFloat(b);
+      switch (operation) {
+        case '+': return (a + b).toString();
+        case '-': return (a - b).toString();
+        case '×': return (a * b).toString();
+        case '÷': return (b !== 0 ? (a / b).toString() : 'Error');
+        case '^': return Math.pow(a, b).toString();
+        case '%': return ((a / 100) * b).toString();
+        default: return b.toString();
+      }
+    }
+
+    function clearCalculator() {
+      currentInput = '';
+      currentOperation = null;
+      previousInput = '';
+      shouldResetScreen = false;
+      bracketOpen = 0;
+      updateDisplay();
+    }
+
+    function backspace() {
+      currentInput = currentInput.slice(0, -1);
+      updateDisplay();
+    }
+
+    function squareRoot() {
+      currentInput = Math.sqrt(parseFloat(currentInput)).toString();
+      updateDisplay();
+    }
+
+    function pi() {
+      currentInput = Math.PI.toString();
+      updateDisplay();
+    }
+
+    function factorial() {
+      const n = parseInt(currentInput);
+      if (n >= 0 && Number.isInteger(n)) {
+        let result = 1;
+        for (let i = 2; i <= n; i++) {
+          result *= i;
+        }
+        currentInput = result.toString();
+        updateDisplay();
+      } else {
+        currentInput = 'Error';
+        updateDisplay();
+      }
+    }
+
+    function handleBrackets() {
+      if (bracketOpen > 0) {
+        currentInput += ')';
+        bracketOpen--;
+      } else {
+        currentInput += '(';
+        bracketOpen++;
+      }
+      updateDisplay();
+    }
+
+    document.querySelectorAll('.buttons button').forEach(button => {
+      button.addEventListener('click', () => {
+        const value = button.textContent;
+
+        if (!isNaN(value) || value === '.') {
+          if (value === '.') appendDecimal();
+          else appendNumber(value);
+        } else if (['+', '-', '×', '÷', '^', '%'].includes(value)) {
+          setOperation(value);
+        } else if (value === '=') {
+          evaluate();
+        } else if (value === 'AC') {
+          clearCalculator();
+        } else if (value === '⌫') {
+          backspace();
+        } else if (value === '√') {
+          squareRoot();
+        } else if (value === 'π') {
+          pi();
+        } else if (value === '!') {
+          factorial();
+        } else if (value === '()') {
+          handleBrackets();
+        }
+      });
+    });
+
+    initializeScore();
+    updateDisplay();
+  </script>
+
+</body>
+
+</html>
