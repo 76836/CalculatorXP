@@ -8,13 +8,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="manifest" href="./manifest.json">
   <title>Calculator</title>
-  <style>
+    <style>
     body,
     html {
       margin: 0;
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #1c2a23;
+      background-color: mediumaquamarine;
       color: #ffffff;
     }
 
@@ -31,9 +31,16 @@
       flex-direction: column;
       justify-content: flex-end;
       align-items: flex-end;
-      padding: 20px;
+      padding:10px;
+      padding-right: 20px;
       margin:0;
       font-size: 48px;
+      text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      margin:4px;
+      border: 2px outset black;
+      overflow: hidden;
     }
 
     .fraction {
@@ -50,36 +57,46 @@
     }
 
     button {
-      border: none;
-      font-size: 24px;
-      padding: 0px 0;
+      border-radius: 20px;
+      font-size: 28px;
+      font-weight:bold;
       color: white;
-      background-color: #294537;
+      background-color: rgba(0, 0, 0, 0.4);
       cursor: pointer;
       height: 10vh;
-      border: 2px solid black;
+      border: 2px outset black;
       margin:0;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+      transition-duration: .1s;
     }
 
     button:active {
-      background-color: #3a5c4a;
+      box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+      border: 2px solid black;
+      transition-duration: .1s;
+      color: rgba(255, 255, 255, 0.815);
     }
 
     .function {
-      background-color: #1e3129;
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(2px);
     }
 
     .operator {
-      background-color: #2d5741;
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(2px);
     }
 
     .equals {
-      background-color: #2d5741;
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(6px);
     }
 
     .top-row {
-      background-color: #1e3129;
-      color: #8fa396;
+      background-color: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(6px);
+      color: white;
     }
 
     #result,
@@ -90,16 +107,16 @@
 
     #preview {
       font-size: 24px;
-      color: #8fa396;
       min-height: 36px;
     }
 
     #score-display {
       position: fixed;
-      top: 10px;
-      left: 10px;
-      font-size: 25px;
-      color: #8fa396;
+      top: 15px;
+      left: 15px;
+      font-size: 20px;
+      color: whitesmoke;
+      text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
     }
   </style>
 </head>
@@ -180,7 +197,7 @@
     function updateScoreDisplay() {
       const score = localStorage.getItem('calculatorScore');
       const calculations = localStorage.getItem('calculationsThisMonth');
-      scoreDisplay.textContent = `Score: ${score} | Calculations this month: ${calculations}`;
+      scoreDisplay.textContent = `Lives: ${score} | XP this month: ${calculations}`;
     }
 
     function decrementScore() {
@@ -220,6 +237,9 @@
       resultDisplay.textContent = currentInput || '0';
       updateFractionDisplay();
       updatePreviewDisplay();
+      if('vibrate' in navigator){
+        navigator.vibrate(25);
+      };
     }
 
     function updateFractionDisplay() {
@@ -292,6 +312,9 @@
 
       if (isSimpleCalculation(previousInput, currentInput, currentOperation)) {
         decrementScore();
+        if('vibrate' in navigator){
+        navigator.vibrate(500);
+        };
       }
 
       currentInput = calculate(previousInput, currentInput, currentOperation);
