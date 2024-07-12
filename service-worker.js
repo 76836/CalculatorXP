@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tropic-red-pineapple';
+const CACHE_NAME = 'tropic-yellow-pineapple';
 const urlsToCache = [
         './',
         './manifest.json',
