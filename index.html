@@ -18,6 +18,62 @@
       color: #ffffff;
     }
 
+
+.windowstyle {
+    border: 4px solid #111111;
+    background-color: transparent;
+    margin: 0%;
+    margin-top: 7vh;
+    width: 86vw;
+    height: 80vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-left: 7vw;
+    margin-right: 7vw;
+    z-index: 30;
+    border-radius: 2vh;
+}
+
+.buttonstyle {
+    border: 4px solid crimson;
+    margin: 0%;
+    width: 16vh;
+    height: 8vh;
+    background-color: darkred;
+    font-size: large;
+    color: white;
+    border-radius: 2vh;
+    z-index: 31;
+    margin-left: 7vw;
+    margin-right: 7vw;
+    position: fixed;
+    top: calc(83vh + 7px);
+    left: 0;
+    transition-duration: 0.3s;
+}
+      
+.button-menu {
+    padding: 5px 10px;
+    border-radius: 20px;
+    background-color: transparent;
+    color: white;
+    background-repeat: repeat-x;
+    background-size: auto 100%;
+    text-align: center;
+    line-height: 30px;
+    font-size: large;
+    position: fixed;
+    top: 7px;
+    right: 7px;
+    width: 50px;
+    border: 0;
+    overflow: hidden;
+    border: 0px solid black;
+    z-index: 21;
+}
+      
+      
     .calculator {
       display: flex;
       flex-direction: column;
@@ -123,6 +179,7 @@
 
 <body>
   <div id="score-display"></div>
+  <button class="button-menu" onclick="newwindow('./settings');">⁝</button>
   <div class="calculator">
     <div class="display">
       <div id="preview"></div>
@@ -182,6 +239,58 @@ window.BOOBACustomization = {
   
   
   <script>
+
+
+var BKGURL = localStorage.getItem('selectedBKGURL');
+        var CSSURL = localStorage.getItem('selectedCSSURL');
+       
+
+if (BKGURL == null || BKGURL == "") {
+            BKGURL = "../squares";
+        };
+
+        var url = BKGURL;
+        // Function to check if the URL is an image
+        function isImage(url) {
+            return (url.match(/\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i) != null);
+        }
+
+        // Function to set the background as an image
+        function setBackgroundImage(url) {
+            document.body.style.backgroundImage = `url('${url}')`;
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundPosition = 'center';
+        }
+
+        // Function to set the background as an iframe
+        function setIframe(url) {
+            const iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.classList.add('iframe-container');
+            document.body.appendChild(iframe);
+        }
+
+        // Determine if the URL is an image or a webpage and set the background accordingly
+        if (isImage(url)) {
+            setBackgroundImage(url);
+        } else {
+            setIframe(url);
+        }
+        loadscreen("[ok] Background loaded.");
+        console.log('Background image loaded from persistent settings: ' + BKGURL);
+
+            function newwindow(weblocation) {
+            var windowcode = '<iframe src="' + weblocation + '" class="windowstyle"></iframe><button class="buttonstyle" onclick="closewindow();">Close window.</button>';
+            var spot = document.getElementById('windowspot');
+            spot.innerHTML = windowcode;
+        };
+        function closewindow() {
+            var spot = document.getElementById('windowspot');
+            spot.innerHTML = '';
+        };
+        
+
+    
     let currentInput = '';
     let currentOperation = null;
     let previousInput = '';
