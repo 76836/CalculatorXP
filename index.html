@@ -16,7 +16,26 @@
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: mediumaquamarine;
       color: #ffffff;
-    }
+    word-wrap: break-word;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    margin:0;
+}
+
+.iframe-container {
+    position:fixed;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -100;
+    margin:0;
+}
+
+iframe {
+    border: none;
+}
+
 
 
 .windowstyle {
@@ -71,6 +90,7 @@
     overflow: hidden;
     border: 0px solid black;
     z-index: 21;
+   max-height: 40px;
 }
       
       
@@ -178,9 +198,10 @@
 </head>
 
 <body>
-  <div id="score-display"></div>
   <button class="button-menu" onclick="newwindow('./settings');">⁝</button>
-  <div class="calculator">
+  <div id="windowspot"></div>
+  <div id="score-display"></div>
+   <div class="calculator">
     <div class="display">
       <div id="preview"></div>
       <div id="result">0</div>
@@ -242,8 +263,6 @@ window.BOOBACustomization = {
 
 
 var BKGURL = localStorage.getItem('selectedBKGURL');
-        var CSSURL = localStorage.getItem('selectedCSSURL');
-       
 
 if (BKGURL == null || BKGURL == "") {
             BKGURL = "../squares";
