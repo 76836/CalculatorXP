@@ -2,269 +2,271 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="./icon.png" type="image/png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <link rel="manifest" href="./manifest.json">
-  <title>Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./icon.png" type="image/png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="./manifest.json">
+    <title>Calculator</title>
     <style>
-    body,
-    html {
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: mediumaquamarine;
-      color: #ffffff;
-    word-wrap: break-word;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    margin:0;
-}
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: rgba(69, 69, 69, 0.75);
+            color: #ffffff;
+            word-wrap: break-word;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            margin: 0;
+        }
 
-.iframe-container {
-    position:fixed;
-    top:0;
-    left:0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -100;
-    margin:0;
-}
+        .iframe-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -100;
+            margin: 0;
+        }
 
-iframe {
-    border: none;
-}
+        iframe {
+            border: none;
+        }
 
 
 
-.windowstyle {
-    border: 4px solid #111111;
-    background-color: transparent;
-    margin: 0%;
-    margin-top: 7vh;
-    width: 86vw;
-    height: 80vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    margin-left: 7vw;
-    margin-right: 7vw;
-    z-index: 30;
-    border-radius: 2vh;
-}
+        .windowstyle {
+            border: 4px solid #111111;
+            box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.5);
+            background-color: transparent;
+            margin: 0%;
+            margin-top: 7vh;
+            width: 86vw;
+            height: 84vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            margin-left: 7vw;
+            margin-right: 7vw;
+            z-index: 30;
+            border-radius: 2vh;
+        }
 
-.buttonstyle {
-    border: 4px solid crimson;
-    margin: 0%;
-    width: 16vh;
-    height: 8vh;
-    background-color: darkred;
-    font-size: large;
-    color: white;
-    border-radius: 2vh;
-    z-index: 31;
-    margin-left: 7vw;
-    margin-right: 7vw;
-    position: fixed;
-    top: calc(83vh + 7px);
-    left: 0;
-    transition-duration: 0.3s;
-}
-      
-.button-menu {
-    padding: 5px 10px;
-    border-radius: 20px;
-    background-color: transparent;
-    color: white;
-    background-repeat: repeat-x;
-    background-size: auto 100%;
-    text-align: center;
-    line-height: 30px;
-    font-size: large;
-    position: fixed;
-    top: 7px;
-    right: 7px;
-    width: 50px;
-    border: 0;
-    overflow: hidden;
-    border: 0px solid black;
-    z-index: 21;
-   max-height: 40px;
-}
-      
-      
-    .calculator {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      margin:0;
-    }
+        .buttonstyle {
+            border: 0px;
+            margin: 0%;
+            width: 10vh;
+            height: 8vh;
+            background-color: black;
+            font-size: large;
+            color: white;
+            border-radius: 0 2vh 0 2vh;
+            z-index: 31;
+            margin-left: 7vw;
+            margin-right: 7vw;
+            position: fixed;
+            top: calc(83vh + 7px);
+            left: 0;
+            transition-duration: 0.3s;
+        }
 
-    .display {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: flex-end;
-      padding:10px;
-      padding-right: 20px;
-      margin:0;
-      font-size: 48px;
-      text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
-      background-color: rgba(0, 0, 0, 0.3);
-      border-radius: 20px;
-      margin:4px;
-      border: 2px outset black;
-      overflow: hidden;
-    }
+        .button-menu {
+            padding: 5px 10px;
+            border-radius: 20px;
+            background-color: transparent;
+            color: white;
+            background-repeat: repeat-x;
+            background-size: auto 100%;
+            text-align: center;
+            line-height: 30px;
+            font-size: large;
+            position: fixed;
+            top: 7px;
+            right: 7px;
+            width: 50px;
+            border: 0;
+            overflow: hidden;
+            border: 0px solid black;
+            z-index: 21;
+            max-height: 40px;
+            box-shadow: 4px 4px 6px rgba(0, 0, 0, 0);
+        }
 
-    .fraction {
-      font-size: 24px;
-      margin-top: 10px;
-      margin:0;
-    }
 
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-      margin:4px;
-    }
+        .calculator {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
 
-    button {
-      border-radius: 20px;
-      font-size: 28px;
-      font-weight:bold;
-      color: white;
-      background-color: rgba(0, 0, 0, 0.4);
-      cursor: pointer;
-      height: 10vh;
-      border: 2px outset black;
-      margin:0;
-      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-      text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
-      transition-duration: .1s;
-    }
+        .display {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+            padding: 10px;
+            padding-right: 20px;
+            margin: 0;
+            font-size: 48px;
+            text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            margin: 4px;
+            border: 2px outset black;
+            overflow: hidden;
+        }
 
-    button:active {
-      box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
-      border: 2px solid black;
-      transition-duration: .1s;
-      color: rgba(255, 255, 255, 0.815);
-    }
+        .fraction {
+            font-size: 24px;
+            margin-top: 10px;
+            margin: 0;
+        }
 
-    .function {
-      background-color: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(2px);
-    }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            margin: 4px;
+        }
 
-    .operator {
-      background-color: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(2px);
-    }
+        button {
+            border-radius: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            height: 10vh;
+            border: 2px outset black;
+            margin: 0;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+            transition-duration: .1s;
+        }
 
-    .equals {
-      background-color: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(6px);
-    }
+        button:active {
+            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+            border: 2px solid black;
+            transition-duration: .1s;
+            color: rgba(255, 255, 255, 0.815);
+        }
 
-    .top-row {
-      background-color: rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(6px);
-      color: white;
-    }
+        .function {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(2px);
+        }
 
-    #result,
-    #preview {
-      word-wrap: break-word;
-      max-width: 100%;
-    }
+        .operator {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(2px);
+        }
 
-    #preview {
-      font-size: 24px;
-      min-height: 36px;
-    }
+        .equals {
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(6px);
+        }
 
-    #score-display {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      font-size: 20px;
-      color: whitesmoke;
-      text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
-    }
-  </style>
+        .top-row {
+            background-color: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(6px);
+            color: white;
+        }
+
+        #result,
+        #preview {
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        #preview {
+            font-size: 24px;
+            min-height: 36px;
+        }
+
+        #score-display {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            font-size: 20px;
+            color: whitesmoke;
+            text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+        }
+    </style>
 </head>
 
 <body>
-  <button class="button-menu" onclick="newwindow('./settings');">⁝</button>
-  <div id="windowspot"></div>
-  <div id="score-display"></div>
-   <div class="calculator">
-    <div class="display">
-      <div id="preview"></div>
-      <div id="result">0</div>
-      <div class="fraction" id="fraction"></div>
+    <button class="button-menu" onclick="newwindow('./settings');">⁝</button>
+    <div id="windowspot"></div>
+    <div id="score-display"></div>
+    <div class="calculator">
+        <div class="display">
+            <div id="preview"></div>
+            <div id="result">0</div>
+            <div class="fraction" id="fraction"></div>
+        </div>
+        <div class="buttons">
+            <button class="top-row">√</button>
+            <button class="top-row">π</button>
+            <button class="top-row">^</button>
+            <button class="top-row">!</button>
+            <button class="function">AC</button>
+            <button class="function">()</button>
+            <button class="function">%</button>
+            <button class="operator">÷</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button class="operator">×</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button class="operator">-</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button class="operator">+</button>
+            <button>0</button>
+            <button>.</button>
+            <button class="function">⌫</button>
+            <button class="equals">=</button>
+        </div>
     </div>
-    <div class="buttons">
-      <button class="top-row">√</button>
-      <button class="top-row">π</button>
-      <button class="top-row">^</button>
-      <button class="top-row">!</button>
-      <button class="function">AC</button>
-      <button class="function">()</button>
-      <button class="function">%</button>
-      <button class="operator">÷</button>
-      <button>7</button>
-      <button>8</button>
-      <button>9</button>
-      <button class="operator">×</button>
-      <button>4</button>
-      <button>5</button>
-      <button>6</button>
-      <button class="operator">-</button>
-      <button>1</button>
-      <button>2</button>
-      <button>3</button>
-      <button class="operator">+</button>
-      <button>0</button>
-      <button>.</button>
-      <button class="function">⌫</button>
-      <button class="equals">=</button>
-    </div>
-  </div>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js')
-        .then((registration) => {
-          console.log('Service Worker registered with scope:', registration.scope);
-        }).catch((error) => {
-          console.log('Service Worker registration failed:', error);
-        });
-    }
-  </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js')
+                .then((registration) => {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                }).catch((error) => {
+                    console.log('Service Worker registration failed:', error);
+                });
+        }
+    </script>
 
 
-<script>
-// Configuration script (should run before script)
-window.BOOBACustomization = {
-    appName: "Calculator XP",
-    appIcon: "./icon.png",
-    backgroundImage: "../Akari/wallpapers/Foreshadowing.jpg"
-};
-</script>
-<script src="https://76836.github.io/QX/core.js"></script>
-
-  
-  
-  <script>
+    <script>
+        // Configuration script (should run before script)
+        window.BOOBACustomization = {
+            appName: "Calculator XP",
+            appIcon: "./icon.png",
+            backgroundImage: "../Akari/wallpapers/Foreshadowing.jpg"
+        };
+    </script>
+    <script src="https://76836.github.io/QX/core.js"></script>
 
 
-var BKGURL = localStorage.getItem('selectedBKGURL');
 
-if (BKGURL == null || BKGURL == "") {
+    <script>
+
+
+        var BKGURL = localStorage.getItem('selectedBKGURL');
+
+        if (BKGURL == null || BKGURL == "") {
             BKGURL = "../squares";
         };
 
@@ -295,11 +297,11 @@ if (BKGURL == null || BKGURL == "") {
         } else {
             setIframe(url);
         }
-        loadscreen("[ok] Background loaded.");
+
         console.log('Background image loaded from persistent settings: ' + BKGURL);
 
-            function newwindow(weblocation) {
-            var windowcode = '<iframe src="' + weblocation + '" class="windowstyle"></iframe><button class="buttonstyle" onclick="closewindow();">Close window.</button>';
+        function newwindow(weblocation) {
+            var windowcode = '<iframe src="' + weblocation + '" class="windowstyle"></iframe><button class="buttonstyle" onclick="closewindow();">close</button>';
             var spot = document.getElementById('windowspot');
             spot.innerHTML = windowcode;
         };
@@ -307,257 +309,257 @@ if (BKGURL == null || BKGURL == "") {
             var spot = document.getElementById('windowspot');
             spot.innerHTML = '';
         };
-        
 
-    
-    let currentInput = '';
-    let currentOperation = null;
-    let previousInput = '';
-    let shouldResetScreen = false;
-    let bracketOpen = 0;
 
-    const resultDisplay = document.getElementById('result');
-    const fractionDisplay = document.getElementById('fraction');
-    const previewDisplay = document.getElementById('preview');
-    const scoreDisplay = document.getElementById('score-display');
 
-    function initializeScore() {
-      const currentDate = new Date();
-      const storedMonth = localStorage.getItem('calculatorScoreMonth');
-      const currentMonth = currentDate.getMonth();
+        let currentInput = '';
+        let currentOperation = null;
+        let previousInput = '';
+        let shouldResetScreen = false;
+        let bracketOpen = 0;
 
-      if (storedMonth === null || parseInt(storedMonth) !== currentMonth) {
-        localStorage.setItem('calculatorScore', '100');
-        localStorage.setItem('calculatorScoreMonth', currentMonth.toString());
-        localStorage.setItem('calculationsThisMonth', '0');
-      }
+        const resultDisplay = document.getElementById('result');
+        const fractionDisplay = document.getElementById('fraction');
+        const previewDisplay = document.getElementById('preview');
+        const scoreDisplay = document.getElementById('score-display');
 
-      updateScoreDisplay();
-    }
+        function initializeScore() {
+            const currentDate = new Date();
+            const storedMonth = localStorage.getItem('calculatorScoreMonth');
+            const currentMonth = currentDate.getMonth();
 
-    function updateScoreDisplay() {
-      const score = localStorage.getItem('calculatorScore');
-      const calculations = localStorage.getItem('calculationsThisMonth');
-      scoreDisplay.textContent = `Lives: ${score} | XP this month: ${calculations}`;
-    }
+            if (storedMonth === null || parseInt(storedMonth) !== currentMonth) {
+                localStorage.setItem('calculatorScore', '100');
+                localStorage.setItem('calculatorScoreMonth', currentMonth.toString());
+                localStorage.setItem('calculationsThisMonth', '0');
+            }
 
-    function decrementScore() {
-      let score = parseInt(localStorage.getItem('calculatorScore'));
-      score = Math.max(0, score - 1);
-      localStorage.setItem('calculatorScore', score.toString());
-      updateScoreDisplay();
-    }
-
-    function incrementCalculations() {
-      let calculations = parseInt(localStorage.getItem('calculationsThisMonth'));
-      calculations += 1;
-      localStorage.setItem('calculationsThisMonth', calculations.toString());
-      updateScoreDisplay();
-    }
-
-    function isSimpleCalculation(a, b, operation) {
-      a = parseFloat(a);
-      b = parseFloat(b);
-      if (isNaN(a) || isNaN(b)) return false;
-
-      switch (operation) {
-        case '+':
-          return (a < 10 && b < 10) || (a % 10 === 0 && b < 10) || (b % 10 === 0 && a < 10);
-        case '-':
-          return (a < 20 && b < 10) || (a % 10 === 0 && b < 10);
-        case '×':
-          return (a < 10 && b < 10) || a === 10 || b === 10;
-        case '÷':
-          return b === 2 || b === 10 || (a % b === 0 && b <= 10);
-        default:
-          return false;
-      }
-    }
-
-    function updateDisplay() {
-      resultDisplay.textContent = currentInput || '0';
-      updateFractionDisplay();
-      updatePreviewDisplay();
-      if('vibrate' in navigator){
-        navigator.vibrate(25);
-      };
-    }
-
-    function updateFractionDisplay() {
-      const value = parseFloat(currentInput);
-      if (!isNaN(value) && value !== 0 && Number.isFinite(value)) {
-        const fraction = toFraction(value);
-        fractionDisplay.textContent = fraction;
-      } else {
-        fractionDisplay.textContent = '';
-      }
-    }
-
-    function updatePreviewDisplay() {
-      if (currentOperation && previousInput) {
-        const previewResult = calculate(previousInput, currentInput, currentOperation);
-        previewDisplay.textContent = `${previousInput} ${currentOperation} ${currentInput} =`;
-        resultDisplay.textContent = previewResult;
-      } else {
-        previewDisplay.textContent = '';
-      }
-    }
-
-    function toFraction(x) {
-      if (Math.abs(x) < 1e-10) return '0';
-      const tolerance = 1.0E-6;
-      let h1 = 1, h2 = 0, k1 = 0, k2 = 1;
-      let b = x;
-      do {
-        let a = Math.floor(b);
-        let aux = h1; h1 = a * h1 + h2; h2 = aux;
-        aux = k1; k1 = a * k1 + k2; k2 = aux;
-        b = 1 / (b - a);
-      } while (Math.abs(x - h1 / k1) > x * tolerance);
-
-      return `${h1}/${k1}`;
-    }
-
-    function appendNumber(number) {
-      if (shouldResetScreen) {
-        currentInput = '';
-        shouldResetScreen = false;
-      }
-      currentInput += number;
-      updateDisplay();
-    }
-
-    function appendDecimal() {
-      if (shouldResetScreen) {
-        currentInput = '0';
-        shouldResetScreen = false;
-      }
-      if (!currentInput.includes('.')) {
-        currentInput += '.';
-      }
-      updateDisplay();
-    }
-
-    function setOperation(operation) {
-      if (currentOperation !== null) evaluate();
-      previousInput = currentInput;
-      currentOperation = operation;
-      shouldResetScreen = true;
-      updateDisplay();
-    }
-
-    function evaluate() {
-      if (currentOperation === null || shouldResetScreen) return;
-
-      incrementCalculations();
-
-      if (isSimpleCalculation(previousInput, currentInput, currentOperation)) {
-        decrementScore();
-        if('vibrate' in navigator){
-        navigator.vibrate(500);
-        };
-      }
-
-      currentInput = calculate(previousInput, currentInput, currentOperation);
-      currentOperation = null;
-      previousInput = '';
-      updateDisplay();
-    }
-
-    function calculate(a, b, operation) {
-      a = parseFloat(a);
-      b = parseFloat(b);
-      switch (operation) {
-        case '+': return (a + b).toString();
-        case '-': return (a - b).toString();
-        case '×': return (a * b).toString();
-        case '÷': return (b !== 0 ? (a / b).toString() : 'Error');
-        case '^': return Math.pow(a, b).toString();
-        case '%': return ((a / 100) * b).toString();
-        default: return b.toString();
-      }
-    }
-
-    function clearCalculator() {
-      currentInput = '';
-      currentOperation = null;
-      previousInput = '';
-      shouldResetScreen = false;
-      bracketOpen = 0;
-      updateDisplay();
-    }
-
-    function backspace() {
-      currentInput = currentInput.slice(0, -1);
-      updateDisplay();
-    }
-
-    function squareRoot() {
-      currentInput = Math.sqrt(parseFloat(currentInput)).toString();
-      updateDisplay();
-    }
-
-    function pi() {
-      currentInput = Math.PI.toString();
-      updateDisplay();
-    }
-
-    function factorial() {
-      const n = parseInt(currentInput);
-      if (n >= 0 && Number.isInteger(n)) {
-        let result = 1;
-        for (let i = 2; i <= n; i++) {
-          result *= i;
+            updateScoreDisplay();
         }
-        currentInput = result.toString();
-        updateDisplay();
-      } else {
-        currentInput = 'Error';
-        updateDisplay();
-      }
-    }
 
-    function handleBrackets() {
-      if (bracketOpen > 0) {
-        currentInput += ')';
-        bracketOpen--;
-      } else {
-        currentInput += '(';
-        bracketOpen++;
-      }
-      updateDisplay();
-    }
-
-    document.querySelectorAll('.buttons button').forEach(button => {
-      button.addEventListener('click', () => {
-        const value = button.textContent;
-
-        if (!isNaN(value) || value === '.') {
-          if (value === '.') appendDecimal();
-          else appendNumber(value);
-        } else if (['+', '-', '×', '÷', '^', '%'].includes(value)) {
-          setOperation(value);
-        } else if (value === '=') {
-          evaluate();
-        } else if (value === 'AC') {
-          clearCalculator();
-        } else if (value === '⌫') {
-          backspace();
-        } else if (value === '√') {
-          squareRoot();
-        } else if (value === 'π') {
-          pi();
-        } else if (value === '!') {
-          factorial();
-        } else if (value === '()') {
-          handleBrackets();
+        function updateScoreDisplay() {
+            const score = localStorage.getItem('calculatorScore');
+            const calculations = localStorage.getItem('calculationsThisMonth');
+            scoreDisplay.textContent = `Lives: ${score} | XP: ${calculations}`;
         }
-      });
-    });
 
-    initializeScore();
-    updateDisplay();
-  </script>
+        function decrementScore() {
+            let score = parseInt(localStorage.getItem('calculatorScore'));
+            score = Math.max(0, score - 1);
+            localStorage.setItem('calculatorScore', score.toString());
+            updateScoreDisplay();
+        }
+
+        function incrementCalculations() {
+            let calculations = parseInt(localStorage.getItem('calculationsThisMonth'));
+            calculations += 1;
+            localStorage.setItem('calculationsThisMonth', calculations.toString());
+            updateScoreDisplay();
+        }
+
+        function isSimpleCalculation(a, b, operation) {
+            a = parseFloat(a);
+            b = parseFloat(b);
+            if (isNaN(a) || isNaN(b)) return false;
+
+            switch (operation) {
+                case '+':
+                    return (a < 10 && b < 10) || (a % 10 === 0 && b < 10) || (b % 10 === 0 && a < 10);
+                case '-':
+                    return (a < 20 && b < 10) || (a % 10 === 0 && b < 10);
+                case '×':
+                    return (a < 10 && b < 10) || a === 10 || b === 10;
+                case '÷':
+                    return b === 2 || b === 10 || (a % b === 0 && b <= 10);
+                default:
+                    return false;
+            }
+        }
+
+        function updateDisplay() {
+            resultDisplay.textContent = currentInput || '0';
+            updateFractionDisplay();
+            updatePreviewDisplay();
+            if ('vibrate' in navigator) {
+                navigator.vibrate(25);
+            };
+        }
+
+        function updateFractionDisplay() {
+            const value = parseFloat(currentInput);
+            if (!isNaN(value) && value !== 0 && Number.isFinite(value)) {
+                const fraction = toFraction(value);
+                fractionDisplay.textContent = fraction;
+            } else {
+                fractionDisplay.textContent = '';
+            }
+        }
+
+        function updatePreviewDisplay() {
+            if (currentOperation && previousInput) {
+                const previewResult = calculate(previousInput, currentInput, currentOperation);
+                previewDisplay.textContent = `${previousInput} ${currentOperation} ${currentInput} =`;
+                resultDisplay.textContent = previewResult;
+            } else {
+                previewDisplay.textContent = '';
+            }
+        }
+
+        function toFraction(x) {
+            if (Math.abs(x) < 1e-10) return '0';
+            const tolerance = 1.0E-6;
+            let h1 = 1, h2 = 0, k1 = 0, k2 = 1;
+            let b = x;
+            do {
+                let a = Math.floor(b);
+                let aux = h1; h1 = a * h1 + h2; h2 = aux;
+                aux = k1; k1 = a * k1 + k2; k2 = aux;
+                b = 1 / (b - a);
+            } while (Math.abs(x - h1 / k1) > x * tolerance);
+
+            return `${h1}/${k1}`;
+        }
+
+        function appendNumber(number) {
+            if (shouldResetScreen) {
+                currentInput = '';
+                shouldResetScreen = false;
+            }
+            currentInput += number;
+            updateDisplay();
+        }
+
+        function appendDecimal() {
+            if (shouldResetScreen) {
+                currentInput = '0';
+                shouldResetScreen = false;
+            }
+            if (!currentInput.includes('.')) {
+                currentInput += '.';
+            }
+            updateDisplay();
+        }
+
+        function setOperation(operation) {
+            if (currentOperation !== null) evaluate();
+            previousInput = currentInput;
+            currentOperation = operation;
+            shouldResetScreen = true;
+            updateDisplay();
+        }
+
+        function evaluate() {
+            if (currentOperation === null || shouldResetScreen) return;
+
+            incrementCalculations();
+
+            if (isSimpleCalculation(previousInput, currentInput, currentOperation)) {
+                decrementScore();
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(500);
+                };
+            }
+
+            currentInput = calculate(previousInput, currentInput, currentOperation);
+            currentOperation = null;
+            previousInput = '';
+            updateDisplay();
+        }
+
+        function calculate(a, b, operation) {
+            a = parseFloat(a);
+            b = parseFloat(b);
+            switch (operation) {
+                case '+': return (a + b).toString();
+                case '-': return (a - b).toString();
+                case '×': return (a * b).toString();
+                case '÷': return (b !== 0 ? (a / b).toString() : 'Error');
+                case '^': return Math.pow(a, b).toString();
+                case '%': return ((a / 100) * b).toString();
+                default: return b.toString();
+            }
+        }
+
+        function clearCalculator() {
+            currentInput = '';
+            currentOperation = null;
+            previousInput = '';
+            shouldResetScreen = false;
+            bracketOpen = 0;
+            updateDisplay();
+        }
+
+        function backspace() {
+            currentInput = currentInput.slice(0, -1);
+            updateDisplay();
+        }
+
+        function squareRoot() {
+            currentInput = Math.sqrt(parseFloat(currentInput)).toString();
+            updateDisplay();
+        }
+
+        function pi() {
+            currentInput = Math.PI.toString();
+            updateDisplay();
+        }
+
+        function factorial() {
+            const n = parseInt(currentInput);
+            if (n >= 0 && Number.isInteger(n)) {
+                let result = 1;
+                for (let i = 2; i <= n; i++) {
+                    result *= i;
+                }
+                currentInput = result.toString();
+                updateDisplay();
+            } else {
+                currentInput = 'Error';
+                updateDisplay();
+            }
+        }
+
+        function handleBrackets() {
+            if (bracketOpen > 0) {
+                currentInput += ')';
+                bracketOpen--;
+            } else {
+                currentInput += '(';
+                bracketOpen++;
+            }
+            updateDisplay();
+        }
+
+        document.querySelectorAll('.buttons button').forEach(button => {
+            button.addEventListener('click', () => {
+                const value = button.textContent;
+
+                if (!isNaN(value) || value === '.') {
+                    if (value === '.') appendDecimal();
+                    else appendNumber(value);
+                } else if (['+', '-', '×', '÷', '^', '%'].includes(value)) {
+                    setOperation(value);
+                } else if (value === '=') {
+                    evaluate();
+                } else if (value === 'AC') {
+                    clearCalculator();
+                } else if (value === '⌫') {
+                    backspace();
+                } else if (value === '√') {
+                    squareRoot();
+                } else if (value === 'π') {
+                    pi();
+                } else if (value === '!') {
+                    factorial();
+                } else if (value === '()') {
+                    handleBrackets();
+                }
+            });
+        });
+
+        initializeScore();
+        updateDisplay();
+    </script>
 
 </body>
 
