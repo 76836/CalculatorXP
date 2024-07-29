@@ -1,8 +1,9 @@
-const CACHE_NAME = 'tropic-yellow-pineapple';
+const CACHE_NAME = 'packaged-yellow-pineapple';
 const urlsToCache = [
         './',
         './manifest.json',
-        './index.html'
+        './index.html',
+        './settings.html'
 ];
 
 // Install event - caching files
