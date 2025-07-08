@@ -13,9 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            background: rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 1);
             color: white;
             min-height: 100vh;
             padding: 20px;
@@ -28,8 +26,8 @@
         
         .glass-panel {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             padding: 25px;
@@ -325,21 +323,21 @@
                     <div class="wallpaper-preview image" id="preview-1"></div>
                     <div class="wallpaper-name">Foreshadowing</div>
                 </div>
-                <div class="wallpaper-widget" data-url="../Akari/wallpapers/luna.jpg" data-name="Abstract">
+                <div class="wallpaper-widget" data-url="../Akari/wallpapers/luna.png" data-name="Abstract">
                     <div class="wallpaper-preview image" id="preview-2"></div>
-                    <div class="wallpaper-name">Abstract</div>
+                    <div class="wallpaper-name">luna</div>
                 </div>
                 <div class="wallpaper-widget" data-url="../Akari/wallpapers/colors.jpg" data-name="Nature">
                     <div class="wallpaper-preview image" id="preview-3"></div>
-                    <div class="wallpaper-name">Nature</div>
+                    <div class="wallpaper-name">Colors</div>
                 </div>
                 <div class="wallpaper-widget" data-url="../Akari/wallpapers/akari.jpg" data-name="Space">
                     <div class="wallpaper-preview image" id="preview-4"></div>
-                    <div class="wallpaper-name">Space</div>
+                    <div class="wallpaper-name">Akari</div>
                 </div>
                 <div class="wallpaper-widget" data-url="../bubbles.html" data-name="Minimal">
                     <div class="wallpaper-preview image" id="preview-5"></div>
-                    <div class="wallpaper-name">Minimal</div>
+                    <div class="wallpaper-name">Bubbles</div>
                 </div>
             </div>
         </div>    
@@ -409,6 +407,7 @@
         }
   
         function toggleScrolling() {
+            window.scrollTo(0, 0);
             document.body.style.overflow = (document.body.style.overflow == 'hidden') ? 'auto' : 'hidden';
         }
   
