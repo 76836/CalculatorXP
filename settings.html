@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Settings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stats-panel {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+        }
+        
+        .stats-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+        
+        .stat-widget {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-widget:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .wallpaper-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .wallpaper-widget {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wallpaper-widget:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .wallpaper-widget.selected {
+            border-color: #ffdd44;
+            box-shadow: 0 0 20px rgba(255, 221, 68, 0.5);
+        }
+        
+        .wallpaper-preview {
+            width: 100%;
+            height: 60px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wallpaper-preview::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+        }
+        
+        .wallpaper-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none;
+        }
+        
+        .wallpaper-preview.image {
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .wallpaper-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .glass-button {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 12px 24px;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .glass-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .glass-button.primary {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .glass-button.primary:hover {
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+        }
+        
+        .glass-button.danger {
+            background: rgba(255, 68, 68, 0.2);
+            border-color: rgba(255, 68, 68, 0.4);
+        }
+        
+        .glass-button.danger:hover {
+            box-shadow: 0 8px 25px rgba(255, 68, 68, 0.3);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .modal-preview {
+            width: 100%;
+            height: 70vh;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .modal-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none;
+        }
+        
+        .modal-preview.image {
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .restart-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .restart-button {
+            background: rgba(102, 204, 102, 0.2);
+            border-color: rgba(102, 204, 102, 0.4);
+            font-size: 18px;
+            padding: 15px 30px;
+            border-radius: 15px;
+        }
+        
+        .restart-button:hover {
+            box-shadow: 0 8px 25px rgba(102, 204, 102, 0.3);
+        }
+        
+        .reset-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-panel stats-panel">
+            <div class="stats-title">Calculator Stats</div>
+            <div class="stats-grid">
+                <div class="stat-widget">
+                    <div class="stat-value" id="lives-stat">85</div>
+                    <div class="stat-label">Lives remaining.</div>
+                </div>
+                <div class="stat-widget">
+                    <div class="stat-value" id="xp-stat">247</div>
+                    <div class="stat-label">XP this month.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="glass-panel">
+            <div class="section-title">Wallpaper Settings</div>
+            <div class="wallpaper-grid">
+                <div class="wallpaper-widget" data-url="../squares" data-name="Default">
+                    <div class="wallpaper-preview" id="preview-0"></div>
+                    <div class="wallpaper-name">Default</div>
+                </div>
+                <div class="wallpaper-widget" data-url="../Akari/wallpapers/Foreshadowing.jpg" data-name="Foreshadowing">
+                    <div class="wallpaper-preview image" id="preview-1"></div>
+                    <div class="wallpaper-name">Foreshadowing</div>
+                </div>
+                <div class="wallpaper-widget" data-url="../Akari/wallpapers/luna.jpg" data-name="Abstract">
+                    <div class="wallpaper-preview image" id="preview-2"></div>
+                    <div class="wallpaper-name">Abstract</div>
+                </div>
+                <div class="wallpaper-widget" data-url="../Akari/wallpapers/colors.jpg" data-name="Nature">
+                    <div class="wallpaper-preview image" id="preview-3"></div>
+                    <div class="wallpaper-name">Nature</div>
+                </div>
+                <div class="wallpaper-widget" data-url="../Akari/wallpapers/akari.jpg" data-name="Space">
+                    <div class="wallpaper-preview image" id="preview-4"></div>
+                    <div class="wallpaper-name">Space</div>
+                </div>
+                <div class="wallpaper-widget" data-url="../bubbles.html" data-name="Minimal">
+                    <div class="wallpaper-preview image" id="preview-5"></div>
+                    <div class="wallpaper-name">Minimal</div>
+                </div>
+            </div>
+        </div>    
+        <div class="restart-section">
+            <button class="glass-button restart-button" onclick="restartApp()">
+                Restart to See Changes
+            </button>
+        </div>
+        
+        <div class="glass-panel reset-section">
+            <div class="section-title">Reset Gamefied Save Data</div>
+            <button class="glass-button danger" onclick="resetStats()">Reset All Stats</button>
+        </div>
+    </div>
+
+    <!-- Modal for wallpaper preview -->
+    <div class="modal-overlay" id="wallpaper-modal">
+        <div class="modal-content">
+            <div class="modal-title" id="modal-title">Wallpaper Preview</div>
+            <div class="modal-preview" id="modal-preview"></div>
+            <div class="modal-buttons">
+                <button class="glass-button primary" onclick="applyWallpaper()">Apply</button>
+                <button class="glass-button" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedWallpaper = null;
+        let currentWallpaper = null;
+
+        function updateStatsDisplay() {
+            const lives = localStorage.getItem('calculatorScore') || '100';
+            const xp = localStorage.getItem('calculationsThisMonth') || '0';
+            
+            document.getElementById('lives-stat').textContent = lives + "/100";
+            document.getElementById('xp-stat').textContent = xp;
+        }
+
+        function updateWallpaperSelection() {
+            currentWallpaper = localStorage.getItem('selectedBKGURL') || '../squares';
+            document.querySelectorAll('.wallpaper-widget').forEach(widget => {
+                widget.classList.remove('selected');
+                if (widget.dataset.url === currentWallpaper) {
+                    widget.classList.add('selected');
+                }
+            });
+        }
+
+        function isImage(url) {
+            return (url.match(/\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i) != null);
+        }
+
+        function setupWallpaperPreviews() {
+            document.querySelectorAll('.wallpaper-widget').forEach((widget, index) => {
+                const url = widget.dataset.url;
+                const preview = document.getElementById(`preview-${index}`);
+                
+                if (isImage(url)) {
+                    preview.style.backgroundImage = `url('${url}')`;
+                } else {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = url;
+                    preview.appendChild(iframe);
+                }
+            });
+        }
+  
+        function toggleScrolling() {
+            document.body.style.overflow = (document.body.style.overflow == 'hidden') ? 'auto' : 'hidden';
+        }
+  
+        function openWallpaperModal(widget) {
+            toggleScrolling();
+            selectedWallpaper = {
+                url: widget.dataset.url,
+                name: widget.dataset.name
+            };
+            
+            document.getElementById('modal-title').textContent = selectedWallpaper.name;
+            const modalPreview = document.getElementById('modal-preview');
+            modalPreview.innerHTML = '';
+            
+            if (isImage(selectedWallpaper.url)) {
+                modalPreview.className = 'modal-preview image';
+                modalPreview.style.backgroundImage = `url('${selectedWallpaper.url}')`;
+            } else {
+                modalPreview.className = 'modal-preview';
+                const iframe = document.createElement('iframe');
+                iframe.src = selectedWallpaper.url;
+                modalPreview.appendChild(iframe);
+            }
+            
+            document.getElementById('wallpaper-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            toggleScrolling();
+            document.getElementById('wallpaper-modal').style.display = 'none';
+            selectedWallpaper = null;
+        }
+
+        function applyWallpaper() {
+            if (selectedWallpaper) {
+                localStorage.setItem('selectedBKGURL', selectedWallpaper.url);
+                updateWallpaperSelection();
+                closeModal();
+            }
+        }
+
+        function resetStats() {
+            if (confirm('Are you sure you want to reset all your stats? This cannot be undone!')) {
+                localStorage.setItem('calculatorScore', '100');
+                localStorage.setItem('calculationsThisMonth', '0');
+                localStorage.setItem('calculatorScoreMonth', new Date().getMonth().toString());
+                updateStatsDisplay();
+            }
+        }
+
+        function restartApp() {
+            if (confirm('Restart the calculator to apply all changes?')) {
+                // In iframe context, communicate with parent
+                if (window.parent && window.parent !== window) {
+                    window.parent.location.reload();
+                } else {
+                    window.location.reload();
+                }
+            }
+        }
+
+        // Event listeners
+        document.querySelectorAll('.wallpaper-widget').forEach(widget => {
+            widget.addEventListener('click', () => {
+                openWallpaperModal(widget);
+            });
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('wallpaper-modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('wallpaper-modal')) {
+                closeModal();
+            }
+        });
+
+        // Initialize on page load
+        updateStatsDisplay();
+        updateWallpaperSelection();
+        setupWallpaperPreviews();
+    </script>
+</body>
+</html>
